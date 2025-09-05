@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Teachers' Day!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .main-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out forwards;
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: #f8f9ff;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out 1s forwards;
+        }
+
+        .message {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: #e8eaff;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out 2s forwards;
+        }
+
+        .arrow-container {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: fadeInBounce 1s ease-out 3.5s forwards;
+        }
+
+        .arrow {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .arrow:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .arrow::after {
+            content: '↓';
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+        }
+
+        .confetti:nth-child(odd) { background: #4ecdc4; }
+        .confetti:nth-child(3n) { background: #ffe66d; }
+        .confetti:nth-child(4n) { background: #ff8b94; }
+        .confetti:nth-child(5n) { background: #95e1d3; }
+
+        .party-popper {
+            position: absolute;
+            font-size: 3rem;
+            z-index: 5;
+        }
+
+        .left-popper {
+            left: 5%;
+            top: 20%;
+            animation: popperLeft 0.8s ease-out;
+        }
+
+        .right-popper {
+            right: 5%;
+            top: 20%;
+            animation: popperRight 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInBounce {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes popperLeft {
+            0% {
+                transform: rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: rotate(-15deg) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(-10deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes popperRight {
+            0% {
+                transform: rotate(0deg) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: rotate(15deg) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(10deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .next-section {
+            display: none;
+            height: 100vh;
+            background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%);
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+        }
+
+        .next-section.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .thank-you {
+            font-size: clamp(2rem, 6vw, 4rem);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+
+        .appreciation {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            max-width: 800px;
+            line-height: 1.8;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out 0.5s forwards;
+        }
+
+        .signature {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: #ffe6f0;
+            margin-top: 3rem;
+            font-style: italic;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+        }
+
+        @media (max-width: 768px) {
+            .party-popper {
+                font-size: 2rem;
+            }
+            
+            .left-popper {
+                left: 2%;
+                top: 15%;
+            }
+            
+            .right-popper {
+                right: 2%;
+                top: 15%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="party-popper left-popper">🎉</div>
+    <div class="party-popper right-popper">🎉</div>
+    
+    <div class="container" id="firstScreen">
+        <h1 class="main-title">Happy Teachers' Day!</h1>
+        <p class="subtitle">Celebrating Our Amazing Educators</p>
+        <p class="message">
+            Thank you for your endless dedication, patience, and wisdom. 
+            You inspire minds, shape futures, and make the world a better place, 
+            one student at a time.
+        </p>
+        
+        <div class="arrow-container">
+            <div class="arrow" id="proceedArrow"></div>
+        </div>
+    </div>
+
+    <div class="next-section" id="nextSection">
+        <h2 class="thank-you">Thank You, Teachers!</h2>
+        <p class="appreciation">
+            Your passion for teaching lights up classrooms and hearts alike. 
+            Every lesson you teach, every question you answer with patience, 
+            and every moment you spend nurturing young minds contributes to building a brighter tomorrow. 
+            Today, we celebrate you and all the incredible work you do. 
+            You are the heroes who shape our future!
+        </p>
+        
+        <p class="signature">
+            With ❤ and regards,<br>
+            from Tejas Sharma
+        </p>
+    </div>
+
+    <script>
+        // Create falling confetti
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.top = '-10px';
+                    confetti.style.animation = `confettiFall ${3 + Math.random() * 3}s linear forwards`;
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 6000);
+                }, i * 100);
+            }
+        }
+
+        // Trigger confetti after page loads
+        window.addEventListener('load', () => {
+            setTimeout(createConfetti, 1000);
+        });
+
+        // Handle arrow click
+        document.getElementById('proceedArrow').addEventListener('click', () => {
+            const firstScreen = document.getElementById('firstScreen');
+            const nextSection = document.getElementById('nextSection');
+            
+            firstScreen.style.opacity = '0';
+            firstScreen.style.transform = 'translateY(-100%)';
+            firstScreen.style.transition = 'all 1s ease-in-out';
+            
+            setTimeout(() => {
+                firstScreen.style.display = 'none';
+                nextSection.classList.add('active');
+                createConfetti();
+            }, 1000);
+        });
+
+        // Add sparkle effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.95) {
+                const sparkle = document.createElement('div');
+                sparkle.style.position = 'absolute';
+                sparkle.style.left = e.clientX + 'px';
+                sparkle.style.top = e.clientY + 'px';
+                sparkle.style.width = '4px';
+                sparkle.style.height = '4px';
+                sparkle.style.background = '#fff';
+                sparkle.style.borderRadius = '50%';
+                sparkle.style.pointerEvents = 'none';
+                sparkle.style.animation = 'fadeInUp 1s ease-out forwards';
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
